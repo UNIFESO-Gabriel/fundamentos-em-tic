@@ -113,8 +113,36 @@ Depois que a instalação estiver concluída, é possível verificar se o Docker
 sudo systemctl status docker
 ```
 
-**Importante:** depois de instalar o Docker, é necessário adicionar seu usuário ao grupo "docker" para executar comandos Docker sem precisar usar sudo toda vez. Você pode fazer isso com o seguinte comando:
+**Importante:** depois de instalar o Docker, é necessário adicionar seu usuário ao grupo "docker" para executar comandos Docker sem precisar usar `sudo` toda vez. Você pode fazer isso com o seguinte comando:
 
 ```bash
 sudo usermod -aG docker $USER
 ```
+
+### 3. Instalando o PostgreSQL
+
+Use os seguitnes comandos para baixar as imagens do PostgreSQL e pgAdmin do DockerHub:
+
+```bash
+sudo docker pull postgres
+sudo docker pull dpage/pgadmin4
+```
+
+Em seguida, crie uma rede Docker para que os contêineres possam se comunicar. Execute o seguinte comando:
+
+```bash
+sudo docker network create pg-network
+```
+
+Agora, será criado o contêiner do PostgreSQL. Certifique-se de definir a senha do banco de dados e vincular o contêiner à rede que acabamos de criar. Execute o seguinte comando:
+
+```bash
+sudo docker run -d --name postgres-container -e POSTGRES_PASSWORD=sua_senha -p 5432:5432 --network pg-network postgres
+```
+Substitua `sua_senha` pela senha desejada para o PostgreSQL. Agora, será criado o contêiner do pgAdmin. Este contêiner ajudará a gerenciar o PostgreSQL. Execute o seguinte comando:
+
+```bash
+sudo docker run -d --name pgadmin-container -p 80:80 --network pg-network -e 'PGADMIN_DEFAULT_EMAIL=seu_email' -e 'PGADMIN_DEFAULT_PASSWORD=sua_senha' dpage/pgadmin4
+```
+
+Substitua `seu_email` pelo seu endereço de e-mail e `sua_senha` pela senha desejada para o pgAdmin. Agora, é possível acessar o pgAdmin no navegador usando `localhost:80`. Faça login com o e-mail e senha definidos anteriormente. No pgAdmin, vá para Servers -> Add New Server. Na guia Connection, em Host name/address, insira `postgres-container`, que é o nome do contêiner do PostgreSQL que foi criado anteriormente. Use `postgres` como nome de usuário e a senha que você definiu.
