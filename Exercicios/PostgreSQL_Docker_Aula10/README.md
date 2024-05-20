@@ -149,7 +149,14 @@ Substitua `seu_email` pelo seu endereço de e-mail e `sua_senha` pela senha dese
 
 ### 4. Criando e Populando o Banco de Dados
 
-Aqui, será criado o banco de dados populado a partir dos arquivos `create_tables_pdv.sql` e `populate_tables_pdv.sql`. Para isso, use o comando docker cp para copiar os arquivos SQL para o contêiner do PostgreSQL (certifique-se que você está no diretório onde os scripts estão localizados):
+Aqui, será criado o banco de dados populado a partir dos arquivos `create_tables_pdv.sql` e `populate_tables_pdv.sql`, representado pela figura a seguir. 
+
+<p align="center">
+  <img src="erd.jpeg" alt="Diagrama de Dados">
+</p>
+
+
+Para isso, use o comando docker cp para copiar os arquivos SQL para o contêiner do PostgreSQL (certifique-se que você está no diretório onde os scripts estão localizados):
 
 ```bash
 docker cp create_tables_pdv.sql postgres-container:/create_tables_pdv.sql
