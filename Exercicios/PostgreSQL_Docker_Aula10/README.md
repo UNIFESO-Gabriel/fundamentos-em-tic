@@ -82,5 +82,39 @@ Em seguida, instale as dependências para permitir que o sistema use repositóri
 
 ```bash
 sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
+```
+Adicione a chave GPG oficial do repositório do Docker ao sistema:
 
+```bash
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+```
+
+Adicione o repositório do Docker às fontes de pacotes APT:
+
+```bash
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+```
+
+Depois de adicionar o repositório do Docker, atualize novamente a lista de pacotes:
+
+```bash
+sudo apt-get update
+```
+
+Agora, é possível instalar a versão mais recente do Docker Community Edition (CE) usando o seguinte comando:
+
+```bash
+sudo apt-get install docker-ce
+```
+
+Depois que a instalação estiver concluída, é possível verificar se o Docker foi instalado corretamente executando o comando abaixo:
+
+```bash
+sudo systemctl status docker
+```
+
+**Importante:** depois de instalar o Docker, é necessário adicionar seu usuário ao grupo "docker" para executar comandos Docker sem precisar usar sudo toda vez. Você pode fazer isso com o seguinte comando:
+
+```bash
+sudo usermod -aG docker $USER
 ```
