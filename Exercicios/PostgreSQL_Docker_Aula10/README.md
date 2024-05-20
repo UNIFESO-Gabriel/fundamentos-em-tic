@@ -124,25 +124,50 @@ sudo usermod -aG docker $USER
 Use os seguitnes comandos para baixar as imagens do PostgreSQL e pgAdmin do DockerHub:
 
 ```bash
-sudo docker pull postgres
-sudo docker pull dpage/pgadmin4
+docker pull postgres
+docker pull dpage/pgadmin4
 ```
 
 Em seguida, crie uma rede Docker para que os contêineres possam se comunicar. Execute o seguinte comando:
 
 ```bash
-sudo docker network create pg-network
+docker network create pg-network
 ```
 
 Agora, será criado o contêiner do PostgreSQL. Certifique-se de definir a senha do banco de dados e vincular o contêiner à rede que acabamos de criar. Execute o seguinte comando:
 
 ```bash
-sudo docker run -d --name postgres-container -e POSTGRES_PASSWORD=sua_senha -p 5432:5432 --network pg-network postgres
+docker run -d --name postgres-container -e POSTGRES_PASSWORD=sua_senha -p 5432:5432 --network pg-network postgres
 ```
 Substitua `sua_senha` pela senha desejada para o PostgreSQL. Agora, será criado o contêiner do pgAdmin. Este contêiner ajudará a gerenciar o PostgreSQL. Execute o seguinte comando:
 
 ```bash
-sudo docker run -d --name pgadmin-container -p 80:80 --network pg-network -e 'PGADMIN_DEFAULT_EMAIL=seu_email' -e 'PGADMIN_DEFAULT_PASSWORD=sua_senha' dpage/pgadmin4
+docker run -d --name pgadmin-container -p 80:80 --network pg-network -e 'PGADMIN_DEFAULT_EMAIL=seu_email' -e 'PGADMIN_DEFAULT_PASSWORD=sua_senha' dpage/pgadmin4
 ```
 
 Substitua `seu_email` pelo seu endereço de e-mail e `sua_senha` pela senha desejada para o pgAdmin. Agora, é possível acessar o pgAdmin no navegador usando `localhost:80`. Faça login com o e-mail e senha definidos anteriormente. No pgAdmin, vá para Servers -> Add New Server. Na guia Connection, em Host name/address, insira `postgres-container`, que é o nome do contêiner do PostgreSQL que foi criado anteriormente. Use `postgres` como nome de usuário e a senha que você definiu.
+
+### 4. Criando e Populando o Banco de Dados
+
+Aqui, será criado o banco de dados populado a partir dos arquivos `create_tables_pdv.sql` e `populate_tables_pdv.sql`. Para isso, use o comando docker cp para copiar os arquivos SQL para o contêiner do PostgreSQL (certifique-se que você está no diretório onde os scripts estão localizados):
+
+```bash
+docker cp create_tables_pdv.sql postgres-container:/create_tables_pdv.sql
+docker cp populate_tables_pdv.sql postgres-container:/populate_tables_pdv.sql
+```
+
+Em seguida, acesse o contêiner do PostgreSQL e execute os scripts SQL:
+```bash
+docker exec -it postgres-container bash
+psql -U postgres -f /create_tables_pdv.sql
+psql -U postgres -f /populate_tables_pdv.sql
+exit
+```
+
+Depois de executar os scripts, verifique se as tabelas foram criadas e populadas corretamente acessando o pgAdmin e visualizando o banco de dados PDV:
+
+- **Acesse o pgAdmin:** abra o navegador e acesse http://localhost:80. Faça login com o e-mail e senha que você configurou anteriormente;
+
+- **Conecte-se ao servidor PostgreSQL:** adicione um novo servidor se ainda não tiver feito isso, conectando-se ao `postgres-container`;
+
+- **Verifique as tabelas e dados:** expanda o banco de dados PDV e navegue até Schemas -> public -> Tables. Você deve ver as tabelas categoria, produto, cliente, venda e item_venda. Clique com o botão direito sobre uma tabela e selecione View/Edit Data -> All Rows para ver os dados inseridos.
