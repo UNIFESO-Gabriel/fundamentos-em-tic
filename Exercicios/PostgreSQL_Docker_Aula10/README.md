@@ -178,3 +178,27 @@ Depois de executar os scripts, verifique se as tabelas foram criadas e populadas
 - **Conecte-se ao servidor PostgreSQL:** adicione um novo servidor se ainda não tiver feito isso, conectando-se ao `postgres-container`;
 
 - **Verifique as tabelas e dados:** expanda o banco de dados PDV e navegue até Schemas -> public -> Tables. Você deve ver as tabelas categoria, produto, cliente, venda e item_venda. Clique com o botão direito sobre uma tabela e selecione View/Edit Data -> All Rows para ver os dados inseridos.
+
+### 5. Perguntas e Consultas SQL
+
+Com base no banco de dados criado, responda às seguintes perguntas utilizando *queries* SQL:
+
+1. Quais são os nomes de todas as categorias disponíveis?
+
+2. Quais são os nomes e os preços de todos os produtos disponíveis?
+
+3. Quais clientes fizeram compras nos últimos sete dias?
+
+4. Quais produtos têm menos de 20 unidades em estoque?
+
+5. Quais são os cinco clientes que mais gastaram dinheiro em compras?
+
+6. Qual é o produto mais vendido até o momento?
+
+7. Qual é o valor total de vendas para cada categoria de produto?
+
+8. Quais são os produtos que nunca foram vendidos?
+   
+9.  Qual é a média de preço dos produtos vendidos para cada cliente?
+
+10. Qual é o cliente que comprou o maior número de produtos diferentes em uma única compra?
