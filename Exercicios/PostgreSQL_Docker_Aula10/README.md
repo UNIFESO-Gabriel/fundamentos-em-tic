@@ -82,4 +82,5 @@ Em seguida, instale as dependências para permitir que o sistema use repositóri
 
 ```bash
 sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
+
 ```
