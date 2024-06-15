@@ -1,0 +1,49 @@
+version: '3.3'
+
+services:
+  web:
+    build: ./app
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    environment:
+      FLASK_ENV: development
+      FLASK_APP: app.py
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: pdv
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+    volumes:
+      - ./app:/app
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: pdv
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./db/create_tables_pdv.sql:/docker-entrypoint-initdb.d/create_tables_pdv.sql
+      - ./db/populate_tables_pdv.sql:/docker-entrypoint-initdb.d/populate_tables_pdv.sql
+    networks:
+      - backend
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@pgadmin.com
+      PGADMIN_DEFAULT_PASSWORD: 123456
+    ports:
+      - "80:80"
+    depends_on:
+      - db
+    networks:
+      - backend
+
+networks:
+  backend:

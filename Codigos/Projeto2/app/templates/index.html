@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}"/>
+    <title>Projeto 02</title>
+</head>
+<body>
+    <div class="controles">
+        <h1>Projeto 02 - Docker + PostgreSQL</h1>
+        <form action="/" method="post">
+            <input type="text" name="comandoSQL" placeholder="Digite seu comando SQL">
+            <input type="submit" value="Enviar">
+        </form>
+    </div>
+
+    <div class="resultados">
+        {% if consulta_resultado %}
+            <h2>Resultados da Consulta:</h2>
+            <table>
+                <thead>
+                    <tr>
+                        {% for col in consulta_resultado[0].keys() %}
+                            <th>{{ col }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in consulta_resultado %}
+                        <tr>
+                            {% for value in row.values() %}
+                                <td>{{ value }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+</body>
+</html>
