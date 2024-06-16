@@ -1,43 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap">
+    <link rel="icon" type="image/png" href="https://www.unifeso.edu.br/images/favicon.png" />
     <title>Projeto 02</title>
 </head>
 <body>
-    <div class="controles">
-        <h1>Projeto 02 - Docker + PostgreSQL</h1>
-        <form action="/" method="post">
-            <input type="text" name="comandoSQL" placeholder="Digite seu comando SQL">
-            <input type="submit" value="Enviar">
-        </form>
-    </div>
-
-    <div class="resultados">
-        {% if consulta_resultado %}
-            <h2>Resultados da Consulta:</h2>
-            <table>
-                <thead>
-                    <tr>
-                        {% for col in consulta_resultado[0].keys() %}
-                            <th>{{ col }}</th>
-                        {% endfor %}
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for row in consulta_resultado %}
+    <div class="container">
+        <header>
+            <h1>PROJETO 02 - Docker + PostgreSQL</h1>
+        </header>
+        
+        <section class="input-form">
+            <form action="/" method="post">
+                <input type="text" name="comandoSQL" placeholder="Digite seu comando SQL">
+                <input type="submit" value="Enviar">
+            </form>
+            {% if erro %}
+                <div class="erro">{{ erro }}</div>
+            {% endif %}
+        </section>
+        
+        <section class="resultados">
+            {% if consulta_resultado %}
+                <h2>Resultados da Consulta</h2>
+                <table>
+                    <thead>
                         <tr>
-                            {% for value in row.values() %}
-                                <td>{{ value }}</td>
+                            {% for coluna in colunas %}
+                                <th>{{ coluna }}</th>
                             {% endfor %}
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% endif %}
+                    </thead>
+                    <tbody>
+                        {% for row in consulta_resultado %}
+                            <tr>
+                                {% for item in row %}
+                                    <td>{{ item }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </section>
     </div>
-    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
 </body>
 </html>
