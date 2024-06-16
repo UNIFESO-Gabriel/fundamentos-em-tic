@@ -82,3 +82,16 @@ table th {
 table tr:nth-child(even) {
     background-color: #f2f2f2;
 }
+
+/* Estilo para mensagem de erro */
+.erro {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: 500;
+}
