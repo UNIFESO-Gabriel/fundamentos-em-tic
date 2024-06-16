@@ -17,6 +17,8 @@ services:
       POSTGRES_PASSWORD: 123456
     volumes:
       - ./app:/app
+    networks:
+      - backend
 
   db:
     image: postgres:latest
