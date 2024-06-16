@@ -26,6 +26,10 @@ h1 {
     margin-bottom: 20px;
 }
 
+hr {
+    margin-bottom: 20px;
+}
+
 .controles {
     margin-bottom: 20px;
     text-align: center;
@@ -90,7 +94,7 @@ table tr:nth-child(even) {
     border: 1px solid #f5c6cb;
     padding: 15px;
     border-radius: 5px;
-    margin-top: 10px;
+    margin-top: 20px;
     margin-bottom: 10px;
     font-size: 16px;
     font-weight: 500;
